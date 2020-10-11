@@ -10,6 +10,11 @@ namespace PigeonProject
     {
         double sum = 0;
 
+        public void clear()
+        {
+            sum = 0;
+        }
+
         public double get()
         {
             return sum;

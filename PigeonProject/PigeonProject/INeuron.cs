@@ -10,5 +10,7 @@ namespace PigeonProject
     {
         void push(T value);
         E get();
+
+        void clear();
     }
 }

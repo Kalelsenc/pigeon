@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace PigeonProject
 {
+    [Serializable]
     class ANeuron : INeuron<int, double>
     {
         const int threshold = 2;
@@ -15,6 +16,11 @@ namespace PigeonProject
         public ANeuron(double weight)
         {
             this.weight = weight;
+        }
+
+        public void clear()
+        {
+            sum = 0;
         }
 
         public double get()
