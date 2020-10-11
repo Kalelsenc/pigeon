@@ -12,19 +12,19 @@ namespace PigeonProject
 {
     class Program
     {
+        static Analizator analizator;
+
         [STAThread]
         static void Main(string[] args)
         {
             SelectMenu();
 
-
         }
-
-        
+      
         static void SelectMenu()
         {
             OpenFileDialog OPF = new OpenFileDialog();
-            Console.WriteLine("Меню:\n 1. Выбрать картинку\n 2. Выбрать папку\n 3. Обучится по картинке\n 4. Обучится по папке");
+            Console.WriteLine("Меню:\n 1. Выбрать картинку\n 2. Выбрать папку\n 3. Обучится по картинке\n 4. Обучится по папке\n 5. Сохранить настройки\n 6. Загрузить настройки");
             int selection = Convert.ToInt16(Console.ReadLine());
             switch (selection)
             {
@@ -50,6 +50,18 @@ namespace PigeonProject
                     {
                         OPF.ShowDialog();
                         LearnByFolder(OPF.FileName);
+                        break;
+                    }
+                case 5:
+                    {
+                        OPF.ShowDialog();
+                        saveConfig(analizator, OPF.FileName);
+                        break;
+                    }
+                case 6:
+                    {
+                        OPF.ShowDialog();
+                        analizator = loadConfig(OPF.FileName);
                         break;
                     }
                 default:

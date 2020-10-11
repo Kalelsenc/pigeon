@@ -29,13 +29,17 @@ namespace PigeonProject
             List<INeuron<Color, int>> sensors = new List<INeuron<Color, int>>();
             List<INeuron<int, double>> associate = new List<INeuron<int, double>>();
             INeuron<double, double> summator = new RNeuron();
+
+            Random random = new Random();
+
             /*
             for (int i = 0; i < width * height; i++)
                 sensors.Add(new ....);
+            */
 
             for (int i = 0; i < height; i++)
-                associate.Add(new ....);
-             */
+                associate.Add(new ANeuron(random.NextDouble()));
+            
             return new Analizator(sensors, associate, summator);
         }
         

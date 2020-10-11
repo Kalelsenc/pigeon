@@ -9,8 +9,13 @@ namespace PigeonProject
     class ANeuron : INeuron<int, double>
     {
         const int threshold = 2;
-        double weight;
+        public double weight;
         int sum;
+
+        public ANeuron(double weight)
+        {
+            this.weight = weight;
+        }
 
         public double get()
         {
