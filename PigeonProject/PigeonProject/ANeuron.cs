@@ -6,16 +6,20 @@ using System.Threading.Tasks;
 
 namespace PigeonProject
 {
-    class RNeuron : INeuron<double, double>
+    class ANeuron : INeuron<int, double>
     {
-        double sum = 0;
+        const int threshold = 2;
+        double weight;
+        int sum;
 
         public double get()
         {
-            return sum;
+            if (sum >= threshold)
+                return weight;
+            else return -weight;
         }
 
-        public void push(double value)
+        public void push(int value)
         {
             sum += value;
         }
