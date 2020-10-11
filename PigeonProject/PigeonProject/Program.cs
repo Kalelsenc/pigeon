@@ -7,8 +7,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing;
-using System.IO;
 
 namespace PigeonProject
 {
@@ -20,9 +18,8 @@ namespace PigeonProject
         static void Main(string[] args)
         {
             SelectMenu();
-
         }
-      
+
         static void SelectMenu()
         {
             FolderBrowserDialog FBW = new FolderBrowserDialog();
@@ -94,6 +91,9 @@ namespace PigeonProject
         {
 
             Bitmap pic = new Bitmap(path);
+            DirectoryInfo dir = new DirectoryInfo(path);
+            pic.Tag = dir.Name;
+
 
             if (pic == null)
                 throw new Exception("File not found");
@@ -106,28 +106,46 @@ namespace PigeonProject
         static void uploadFolder(string path)
         {
             DirectoryInfo dir = new DirectoryInfo(path);
-            List<Image> uploadImages = new List<Image>();
+            List<Bitmap> uploadImages = new List<Bitmap>();
             FileInfo[] fileInfo = dir.GetFiles();
+
             for (int i=0;i<Convert.ToInt16(dir.GetFiles().Length.ToString());i++)
             {
-                uploadImages.Add(Image.FromFile(fileInfo[i].FullName));
-            } 
+                Bitmap pic =new Bitmap(fileInfo[i].FullName);
+                pic.Tag = fileInfo[i].Name;
+                uploadImages.Add(pic);
+            }
+
+            if (uploadImages.Capacity == 0)
+                throw new Exception("Folder is empty");
+
         }
 
         static void LearnByImage(string path)
         {
-            Image lImage = Image.FromFile(path);
+            Bitmap pic = new Bitmap(path);
+            DirectoryInfo dir = new DirectoryInfo(path);
+            pic.Tag = dir.Name;
+
+            if (pic == null)
+                throw new Exception("File not found");
         }
 
         static void LearnByFolder(string path)
         {
             DirectoryInfo dir = new DirectoryInfo(path);
-            List<Image> learnImages = new List<Image>();
+            List<Bitmap> uploadImages = new List<Bitmap>();
             FileInfo[] fileInfo = dir.GetFiles();
+
             for (int i = 0; i < Convert.ToInt16(dir.GetFiles().Length.ToString()); i++)
             {
-                learnImages.Add(Image.FromFile(fileInfo[i].FullName));
+                Bitmap pic = new Bitmap(fileInfo[i].FullName);
+                pic.Tag = fileInfo[i].Name;
+                uploadImages.Add(pic);
             }
+
+            if (uploadImages.Capacity == 0)
+                throw new Exception("Folder is empty");
         }
 
         static void saveConfig(Analizator analizator, string path)
