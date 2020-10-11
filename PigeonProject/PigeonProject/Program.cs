@@ -19,10 +19,9 @@ namespace PigeonProject
         {
             SelectMenu();
         }
-      
+
         static void SelectMenu()
         {
-
             FolderBrowserDialog FBW = new FolderBrowserDialog();
             OpenFileDialog OFD = new OpenFileDialog();
             Console.WriteLine("Меню:\n 1. Выбрать картинку\n 2. Выбрать папку\n 3. Обучится по картинке\n 4. Обучится по папке\n 5. Сохранить настройки\n 6. Загрузить настройки\n"+
@@ -109,7 +108,7 @@ namespace PigeonProject
             DirectoryInfo dir = new DirectoryInfo(path);
             List<Bitmap> uploadImages = new List<Bitmap>();
             FileInfo[] fileInfo = dir.GetFiles();
-            
+
             for (int i=0;i<Convert.ToInt16(dir.GetFiles().Length.ToString());i++)
             {
                 Bitmap pic =new Bitmap(fileInfo[i].FullName);
