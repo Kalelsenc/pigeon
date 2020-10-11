@@ -13,16 +13,16 @@ namespace PigeonProject
     {
         const int width = 9;
         const int height = 15;
-        const double learnStepUp = 0.03;
-        const double learnStepDown = -0.02;
+        const double learnStepUp = 1.1;
+        const double learnStepDown = 0.9;
         bool learn = false;
         string name;
 
         readonly List<SNeuron> sensors;
         readonly List<ANeuron> associates;
-        readonly INeuron<double, double> summator;
+        readonly RNeuron summator;
 
-        Analizator(List<SNeuron> sensors, List<ANeuron> associates, INeuron<double, double> summator)
+        Analizator(List<SNeuron> sensors, List<ANeuron> associates,RNeuron summator)
         {
             this.sensors = sensors;
             this.associates = associates;
@@ -34,7 +34,7 @@ namespace PigeonProject
         {
             List<SNeuron> sensors = new List<SNeuron>();
             List<ANeuron> associates = new List<ANeuron>();
-            INeuron<double, double> summator = new RNeuron();
+            RNeuron summator = new RNeuron();
 
             Random random = new Random();
 
@@ -42,7 +42,7 @@ namespace PigeonProject
                 sensors.Add(new SNeuron());
             
 
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < 33; i++)
                 associates.Add(new ANeuron(random.NextDouble()));
             
             return new Analizator(sensors, associates, summator);
@@ -50,22 +50,23 @@ namespace PigeonProject
 
         public void clear()
         {
-            foreach (INeuron<Color, int> sensor in sensors)
+
+            foreach (SNeuron sensor in sensors)
                 sensor.clear();
 
-            foreach (INeuron<Color, int> associate in associates)
+            foreach (ANeuron associate in associates)
                 associate.clear();
 
             summator.clear();
-
-            learn = false;
+            name = "";
         }
 
         public string get()
         {
 
             for (int i = 0; i < sensors.Count; i++)
-                associates[i / width].push(sensors[i].get());
+                foreach(ANeuron neuron in associates)
+                    neuron.push(sensors[i].get());
 
             foreach (ANeuron neuron in associates)
                 summator.push(neuron.get());
@@ -79,11 +80,16 @@ namespace PigeonProject
             {
                 string rightLetter = name.Split('_')[0];
                 if (result != rightLetter)
+                {
                     if (code < getCodeByLetter(rightLetter))
                         associates.ForEach(x => x.learn(learnStepUp));
                     else associates.ForEach(x => x.learn(learnStepDown));
-            }
+                }
 
+               
+            }
+            else Console.WriteLine(code);
+            clear();
             return result;
         }
 
@@ -131,7 +137,7 @@ namespace PigeonProject
                     return 19;
                 case "т":
                     return 20;
-                case "у"
+                case "у":
                     return 21;
                 case "ф":
                     return 22;
@@ -241,7 +247,8 @@ namespace PigeonProject
         {
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
-                    sensors[x * height + x].push(value.GetPixel(x, y));
+                    sensors[x * y + x].push(value.GetPixel(x, y));
+            name = (string)value.Tag;
         }
 
         public void setLearn(bool flag)

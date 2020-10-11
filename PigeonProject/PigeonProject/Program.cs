@@ -164,11 +164,15 @@ namespace PigeonProject
 
             analizator.setLearn(true);
 
-            foreach (Bitmap bitmap in uploadImages)
+            for(int i = 0; i < 2000; i++)
             {
-                analizator.push(bitmap);
-                Console.WriteLine("value: " + bitmap.Tag + " result:" + analizator.get());
+                foreach (Bitmap bitmap in uploadImages)
+                {
+                    analizator.push(bitmap);
+
+                }
             }
+            
         }
 
         static void saveConfig(Analizator analizator, string path)
