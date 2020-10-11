@@ -14,6 +14,8 @@ namespace PigeonProject
         static void Main(string[] args)
         {
             SelectMenu();
+
+
         }
 
         
@@ -74,6 +76,11 @@ namespace PigeonProject
         static void LearnByFolder(string path)
         {
             Console.WriteLine(path);
+        }
+
+        static void saveConfig(Analizator analizator)
+        {
+
         }
     }
 }
