@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace PigeonProject
 {
+    [Serializable]
     class Analizator : INeuron<Bitmap, string>
     {
         const int width = 9;

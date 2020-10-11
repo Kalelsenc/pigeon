@@ -61,14 +61,14 @@ namespace PigeonProject
                     }
                 case 5:
                     {
-                        OPF.ShowDialog();
-                        saveConfig(analizator, OPF.FileName);
+                        OFD.ShowDialog();
+                        saveConfig(analizator, OFD.FileName);
                         break;
                     }
                 case 6:
                     {
-                        OPF.ShowDialog();
-                        analizator = loadConfig(OPF.FileName);
+                        OFD.ShowDialog();
+                        analizator = loadConfig(OFD.FileName);
 
                         break;
                     }
