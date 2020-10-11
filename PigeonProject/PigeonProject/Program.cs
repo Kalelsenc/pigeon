@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Drawing;
+using System.IO;
 
 namespace PigeonProject
 {
@@ -19,61 +20,76 @@ namespace PigeonProject
         
         static void SelectMenu()
         {
-            OpenFileDialog OPF = new OpenFileDialog();
+            FolderBrowserDialog FBW = new FolderBrowserDialog();
+            OpenFileDialog OFD = new OpenFileDialog();
             Console.WriteLine("Меню:\n 1. Выбрать картинку\n 2. Выбрать папку\n 3. Обучится по картинке\n 4. Обучится по папке");
             int selection = Convert.ToInt16(Console.ReadLine());
             switch (selection)
             {
                 case 1:
                     {
-                        OPF.ShowDialog();
-                        SelectImage(OPF.FileName);
+                        OFD.ShowDialog();
+                        uploadImage(OFD.FileName);
                         break;
                     }
                 case 2:
                     {
-                        OPF.ShowDialog();
-                        SelectFolder(OPF.FileName);
+
+                        FBW.ShowDialog();
+                        uploadFolder(FBW.SelectedPath);
                         break;
                     }
                 case 3:
                     {
-                        OPF.ShowDialog();
-                        LearnByImage(OPF.FileName);
+                        OFD.ShowDialog();
+                        LearnByImage(OFD.FileName);
                         break;
                     }
                 case 4:
                     {
-                        OPF.ShowDialog();
-                        LearnByFolder(OPF.FileName);
+                        FBW.ShowDialog();
+                        LearnByFolder(FBW.SelectedPath);
                         break;
                     }
                 default:
-                    Console.WriteLine("Вы написали фигню");
+                    Console.WriteLine("Вы написали фигню, попробуйте заново");
                     break;
 
             }
             SelectMenu();
         }
 
-        static void SelectImage(string path)
+        static void uploadImage(string path)
         {
-            Console.WriteLine(path);
+            Image uImage = Image.FromFile(path);
         }
 
-        static void SelectFolder(string path)
+        static void uploadFolder(string path)
         {
-            Console.WriteLine(path);
+            DirectoryInfo dir = new DirectoryInfo(path);
+            List<Image> uploadImages = new List<Image>();
+            FileInfo[] fileInfo = dir.GetFiles();
+            for (int i=0;i<Convert.ToInt16(dir.GetFiles().Length.ToString());i++)
+            {
+                uploadImages.Add(Image.FromFile(fileInfo[i].FullName));
+            }
+            
         }
 
         static void LearnByImage(string path)
         {
-            Console.WriteLine(path);
+            Image lImage = Image.FromFile(path);
         }
 
         static void LearnByFolder(string path)
         {
-            Console.WriteLine(path);
+            DirectoryInfo dir = new DirectoryInfo(path);
+            List<Image> learnImages = new List<Image>();
+            FileInfo[] fileInfo = dir.GetFiles();
+            for (int i = 0; i < Convert.ToInt16(dir.GetFiles().Length.ToString()); i++)
+            {
+                learnImages.Add(Image.FromFile(fileInfo[i].FullName));
+            }
         }
     }
 }
