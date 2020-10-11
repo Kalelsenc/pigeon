@@ -107,11 +107,11 @@ namespace PigeonProject
         static void uploadFolder(string path)
         {
             DirectoryInfo dir = new DirectoryInfo(path);
-            List<Image> uploadImages = new List<Image>();
+            List<Bitmap> uploadImages = new List<Bitmap>();
             FileInfo[] fileInfo = dir.GetFiles();
             for (int i=0;i<Convert.ToInt16(dir.GetFiles().Length.ToString());i++)
             {
-                uploadImages.Add(Image.FromFile(fileInfo[i].FullName));
+                uploadImages.Add(new Bitmap(fileInfo[i].FullName));
             }
             
         }
@@ -124,11 +124,11 @@ namespace PigeonProject
         static void LearnByFolder(string path)
         {
             DirectoryInfo dir = new DirectoryInfo(path);
-            List<Image> learnImages = new List<Image>();
+            List<Bitmap> uploadImages = new List<Bitmap>();
             FileInfo[] fileInfo = dir.GetFiles();
             for (int i = 0; i < Convert.ToInt16(dir.GetFiles().Length.ToString()); i++)
             {
-                learnImages.Add(Image.FromFile(fileInfo[i].FullName));
+                uploadImages.Add(new Bitmap(fileInfo[i].FullName));
             }
         }
 
