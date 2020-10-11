@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -24,7 +25,8 @@ namespace PigeonProject
         static void SelectMenu()
         {
             OpenFileDialog OPF = new OpenFileDialog();
-            Console.WriteLine("Меню:\n 1. Выбрать картинку\n 2. Выбрать папку\n 3. Обучится по картинке\n 4. Обучится по папке\n 5. Сохранить настройки\n 6. Загрузить настройки");
+            Console.WriteLine("Меню:\n 1. Выбрать картинку\n 2. Выбрать папку\n 3. Обучится по картинке\n 4. Обучится по папке\n 5. Сохранить настройки\n 6. Загрузить настройки\n"+
+                " 7. Задать случайные настройки\n 8. Напечатать веса ассоциативного слоя.");
             int selection = Convert.ToInt16(Console.ReadLine());
             switch (selection)
             {
@@ -62,6 +64,18 @@ namespace PigeonProject
                     {
                         OPF.ShowDialog();
                         analizator = loadConfig(OPF.FileName);
+
+                        break;
+                    }
+                case 7:
+                    {
+                        analizator = Analizator.random();
+                        Console.WriteLine("Заданы случайные настройки");
+                        break;
+                    }
+                case 8:
+                    {
+                        Console.WriteLine(analizator.ToString());
                         break;
                     }
                 default:
@@ -74,7 +88,13 @@ namespace PigeonProject
 
         static void SelectImage(string path)
         {
-            Console.WriteLine(path);
+            Bitmap pic = new Bitmap(path);
+
+            if (pic == null)
+                throw new Exception("File not found");
+
+            analizator.push(pic);
+            Console.WriteLine("result: " + analizator.get());
         }
 
         static void SelectFolder(string path)
