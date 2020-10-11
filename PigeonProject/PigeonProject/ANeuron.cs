@@ -30,6 +30,12 @@ namespace PigeonProject
             else return -weight;
         }
 
+        public void learn(double value)
+        {
+            if(sum>threshold)
+                weight += value;
+        }
+
         public void push(int value)
         {
             sum += value;
