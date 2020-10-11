@@ -35,10 +35,9 @@ namespace PigeonProject
 
             Random random = new Random();
 
-            /*
             for (int i = 0; i < width * height; i++)
-                sensors.Add(new ....);
-            */
+                sensors.Add(new SNeuron());
+            
 
             for (int i = 0; i < height; i++)
                 associates.Add(new ANeuron(random.NextDouble()));
@@ -145,9 +144,10 @@ namespace PigeonProject
 
         public void push(Bitmap value)
         {
+            Console.WriteLine(sensors.Count);
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
-                    sensors[y * height + x].push(value.GetPixel(x, y));
+                    sensors[x * height + x].push(value.GetPixel(x, y));
         }
 
         public void setLearn(bool flag)
