@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -78,9 +80,21 @@ namespace PigeonProject
             Console.WriteLine(path);
         }
 
-        static void saveConfig(Analizator analizator)
+        static void saveConfig(Analizator analizator, string path)
         {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate))
+                formatter.Serialize(stream, analizator);
+        }
 
+        static Analizator loadConfig(string path)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            Analizator dataset;
+            using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate))
+                dataset = (Analizator)formatter.Deserialize(stream);
+
+            return dataset;
         }
     }
 }
