@@ -11,12 +11,12 @@ namespace PigeonProject
     {
         Color color = new Color();
 
-        void INeuron<Color, int>.clear()
+        public void clear()
         {
             color = Color.White;
         }
 
-        int INeuron<Color, int>.get()
+        public int get()
         {
             if (color.B <=225 || color.G <= 225 || color.R <= 225)
                 return 1;
@@ -24,7 +24,7 @@ namespace PigeonProject
                 return 0;
         }
 
-        void INeuron<Color, int>.push(Color value)
+        public void push(Color value)
         {
             color = value;
         }
