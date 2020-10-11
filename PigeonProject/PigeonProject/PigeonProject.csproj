@@ -59,8 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analizator.cs" />
+    <Compile Include="ANeuron.cs" />
+    <Compile Include="INeuron.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RNeuron.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
