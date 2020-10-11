@@ -98,8 +98,10 @@ namespace PigeonProject
             if (pic == null)
                 throw new Exception("File not found");
 
+            analizator.setLearn(false);
+
             analizator.push(pic);
-            Console.WriteLine("result: " + analizator.get());
+            Console.WriteLine("value: "+pic.Tag + " result: " + analizator.get());
 
         }
 
@@ -119,6 +121,14 @@ namespace PigeonProject
             if (uploadImages.Capacity == 0)
                 throw new Exception("Folder is empty");
 
+            analizator.setLearn(false);
+
+            foreach (Bitmap bitmap in uploadImages)
+            {
+                analizator.push(bitmap);
+                Console.WriteLine("value: "+bitmap.Tag+" result:" + analizator.get());
+            }
+
         }
 
         static void LearnByImage(string path)
@@ -129,6 +139,11 @@ namespace PigeonProject
 
             if (pic == null)
                 throw new Exception("File not found");
+
+            analizator.setLearn(true);
+
+            analizator.push(pic);
+            Console.WriteLine("value: " + pic.Tag + " result: " + analizator.get());
         }
 
         static void LearnByFolder(string path)
@@ -146,6 +161,14 @@ namespace PigeonProject
 
             if (uploadImages.Capacity == 0)
                 throw new Exception("Folder is empty");
+
+            analizator.setLearn(true);
+
+            foreach (Bitmap bitmap in uploadImages)
+            {
+                analizator.push(bitmap);
+                Console.WriteLine("value: " + bitmap.Tag + " result:" + analizator.get());
+            }
         }
 
         static void saveConfig(Analizator analizator, string path)
@@ -163,6 +186,11 @@ namespace PigeonProject
                 dataset = (Analizator)formatter.Deserialize(stream);
 
             return dataset;
+        }
+
+        static void getFileName(string path)
+        {
+
         }
     }
 }
