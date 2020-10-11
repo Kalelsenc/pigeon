@@ -25,7 +25,6 @@ namespace PigeonProject
       
         static void SelectMenu()
         {
-
             FolderBrowserDialog FBW = new FolderBrowserDialog();
             OpenFileDialog OFD = new OpenFileDialog();
             Console.WriteLine("Меню:\n 1. Выбрать картинку\n 2. Выбрать папку\n 3. Обучится по картинке\n 4. Обучится по папке\n 5. Сохранить настройки\n 6. Загрузить настройки\n"+
@@ -112,8 +111,7 @@ namespace PigeonProject
             for (int i=0;i<Convert.ToInt16(dir.GetFiles().Length.ToString());i++)
             {
                 uploadImages.Add(Image.FromFile(fileInfo[i].FullName));
-            }
-            
+            } 
         }
 
         static void LearnByImage(string path)
