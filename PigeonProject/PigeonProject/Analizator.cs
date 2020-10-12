@@ -1,6 +1,7 @@
 ﻿using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace PigeonProject
         const double learnStepUp = 0.001;
         const double learnStepDown = -0.0013;
         bool learn = false;
+        bool debug = false;
         string name;
 
         readonly List<SNeuron> sensors;
@@ -84,8 +86,6 @@ namespace PigeonProject
                         associates.ForEach(x => x.learn(learnStepUp));
                     else associates.ForEach(x => x.learn(learnStepDown));
                 }
-
-                // Console.WriteLine(code);
             }
             else
             {
@@ -257,6 +257,12 @@ namespace PigeonProject
         public void setLearn(bool flag)
         {
             learn = flag;
+        }
+
+        public bool shiftDebugMode()
+        {
+            debug = !debug;
+            return debug;
         }
 
         public override string ToString()

@@ -25,7 +25,7 @@ namespace PigeonProject
             FolderBrowserDialog FBW = new FolderBrowserDialog();
             OpenFileDialog OFD = new OpenFileDialog();
             Console.WriteLine("Меню:\n 1. Выбрать картинку\n 2. Выбрать папку\n 3. Обучится по картинке\n 4. Обучится по папке\n 5. Сохранить настройки\n 6. Загрузить настройки\n"+
-                " 7. Задать случайные настройки\n 8. Напечатать веса ассоциативного слоя.");
+                " 7. Задать случайные настройки\n 8. Напечатать веса ассоциативного слоя.\n 9. Переключить режим отладки.");
 
             int selection = Convert.ToInt16(Console.ReadLine());
             switch (selection)
@@ -77,6 +77,11 @@ namespace PigeonProject
                 case 8:
                     {
                         Console.WriteLine(analizator.ToString());
+                        break;
+                    }
+                case 9:
+                    {
+                        Console.WriteLine("Debug mode: "+analizator.shiftDebugMode());
                         break;
                     }
                 default:
