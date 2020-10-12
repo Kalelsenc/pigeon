@@ -169,7 +169,7 @@ namespace PigeonProject
                 foreach (Bitmap bitmap in uploadImages)
                 {
                     analizator.push(bitmap);
-
+                    analizator.get();
                 }
             }
             

@@ -13,8 +13,8 @@ namespace PigeonProject
     {
         const int width = 9;
         const int height = 15;
-        const double learnStepUp = 1.1;
-        const double learnStepDown = 0.9;
+        const double learnStepUp = 0.001;
+        const double learnStepDown = -0.0013;
         bool learn = false;
         string name;
 
@@ -42,7 +42,7 @@ namespace PigeonProject
                 sensors.Add(new SNeuron());
             
 
-            for (int i = 0; i < 33; i++)
+            for (int i = 0; i < width * height; i++)
                 associates.Add(new ANeuron(random.NextDouble()));
             
             return new Analizator(sensors, associates, summator);
@@ -65,18 +65,17 @@ namespace PigeonProject
         {
 
             for (int i = 0; i < sensors.Count; i++)
-                foreach(ANeuron neuron in associates)
-                    neuron.push(sensors[i].get());
+                associates[i].push(sensors[i].get());
 
             foreach (ANeuron neuron in associates)
                 summator.push(neuron.get());
 
             double doubleCode = summator.get();
-            int code = (int)Math.Round(doubleCode);
-
+            int code = (int)Math.Round(doubleCode, MidpointRounding.ToEven);
+           
             string result = getLetterByCode(code);
- 
-            if(learn)
+
+            if (learn)
             {
                 string rightLetter = name.Split('_')[0];
                 if (result != rightLetter)
@@ -86,9 +85,13 @@ namespace PigeonProject
                     else associates.ForEach(x => x.learn(learnStepDown));
                 }
 
-               
+                // Console.WriteLine(code);
             }
-            else Console.WriteLine(code);
+            else
+            {
+                Console.WriteLine(doubleCode);
+                Console.WriteLine(code);
+            }
             clear();
             return result;
         }

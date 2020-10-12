@@ -9,7 +9,7 @@ namespace PigeonProject
     [Serializable]
     class ANeuron : INeuron<int, double>
     {
-        const int threshold = 1;
+        const int threshold = 2;
         public double weight;
         int sum=0;
 
@@ -25,12 +25,13 @@ namespace PigeonProject
 
         public double get()
         {
-             return weight*(double)sum;
+             return sum*weight;
         }
 
         public void learn(double value)
         {
-             weight *= sum;
+            if(sum > 0)
+             weight += value;
         }
 
         public void push(int value)
