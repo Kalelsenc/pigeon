@@ -14,12 +14,16 @@ namespace PigeonProject
     public partial class Paint : Form
     {
         int X, Y;
+        int lastX=int.MinValue, lastY=int.MinValue;
         Bitmap bmp = new Bitmap(300, 300);
-
+        Graphics gr;
+        Pen pen = new Pen(Brushes.Black);
         public Paint()
         {
             InitializeComponent();
-
+            gr = Graphics.FromImage(bmp);
+            pictureBox1.Image = bmp;
+            pen.Width = 20;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -34,24 +38,28 @@ namespace PigeonProject
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Graphics gr = pictureBox1.CreateGraphics();
-            gr.FillEllipse(Brushes.Black, X, Y, 10, 10);
+            if(lastX != int.MinValue)
+                gr.DrawLine(pen, lastX, lastY, X, Y);
+            lastX = X;
+            lastY = Y;
+            pictureBox1.Image = bmp;
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
+            lastX = int.MinValue;
+            lastY = int.MinValue;
             timer1.Stop();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Graphics gr = pictureBox1.CreateGraphics();
             gr.Clear(Color.White);
+            pictureBox1.Image = bmp;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Bitmap bitmap = new Bitmap(pictureBox1.Image);
             bmp.Save("D:/1.jpg");
         }
 
