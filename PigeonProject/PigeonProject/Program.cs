@@ -13,7 +13,7 @@ namespace PigeonProject
     class Program
     {
         static Analizator analizator;
-
+        public static Bitmap bmp;
         [STAThread]
         static void Main(string[] args)
         {
@@ -84,7 +84,8 @@ namespace PigeonProject
 
 
                         letterPaint();
-
+                        Bitmap size = new Bitmap(bmp, 9, 15);
+                        uploadImage(size);
                         break;
                     }
 
@@ -119,6 +120,16 @@ namespace PigeonProject
 
             analizator.push(pic);
             Console.WriteLine("value: "+pic.Tag + " result: " + analizator.get());
+
+        }
+
+        static void uploadImage(Bitmap path)
+        {
+
+            analizator.setLearn(false);
+
+            analizator.push(path);
+            Console.WriteLine("result: " + analizator.get());
 
         }
 

@@ -60,7 +60,8 @@ namespace PigeonProject
 
         private void button2_Click(object sender, EventArgs e)
         {
-            bmp.Save("D:/1.jpg");
+            Program.bmp = bmp;
+            Close();
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
