@@ -25,7 +25,7 @@ namespace PigeonProject
             FolderBrowserDialog FBW = new FolderBrowserDialog();
             OpenFileDialog OFD = new OpenFileDialog();
             Console.WriteLine("Меню:\n 1. Выбрать картинку\n 2. Выбрать папку\n 3. Обучится по картинке\n 4. Обучится по папке\n 5. Сохранить настройки\n 6. Загрузить настройки\n"+
-                " 7. Задать случайные настройки\n 8. Напечатать веса ассоциативного слоя.\n 9. Переключить режим отладки.");
+                " 7. Задать случайные настройки\n 8. Напечатать веса ассоциативного слоя.\n 9. Нарисовать картинку самому\n 10. Переключить режим отладки.");
 
             int selection = Convert.ToInt16(Console.ReadLine());
             switch (selection)
@@ -81,9 +81,21 @@ namespace PigeonProject
                     }
                 case 9:
                     {
-                        Console.WriteLine("Debug mode: "+analizator.shiftDebugMode());
+
+
+                        letterPaint();
+
                         break;
                     }
+
+                    case 10:
+                        {
+
+                            Console.WriteLine("Debug mode: "+analizator.shiftDebugMode());
+
+
+                            break;
+                        }
                 default:
                     Console.WriteLine("Вы написали фигню, попробуйте заново");
                     break;
@@ -177,7 +189,7 @@ namespace PigeonProject
                     analizator.get();
                 }
             }
-            
+
         }
 
         static void saveConfig(Analizator analizator, string path)
@@ -200,6 +212,12 @@ namespace PigeonProject
         static void getFileName(string path)
         {
 
+        }
+
+        static void letterPaint()
+        {
+            Paint paint = new Paint();
+            paint.ShowDialog();
         }
     }
 }
