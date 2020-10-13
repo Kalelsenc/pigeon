@@ -65,12 +65,33 @@ namespace PigeonProject
             path = FBW.SelectedPath;
         }
 
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+                numericUpDown1.Visible = true;
+            else
+                numericUpDown1.Visible = false;
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             if(checkBox1.Checked)
             {
-                bmp.Save(path + "\\" + domainUpDown1.SelectedItem.ToString() + "_0.png");
-                domainUpDown1.SelectedIndex++;
+                bmp.Save(path+"\\" + domainUpDown1.SelectedItem.ToString() + "_"+ numericUpDown1.Value + ".png");
+                gr.Clear(Color.White);
+                pictureBox1.Image = bmp;
+                if (domainUpDown1.SelectedIndex == 32)
+                {
+                    domainUpDown1.SelectedIndex = 0;
+                    numericUpDown1.Value++;
+                }
+                else
+                    domainUpDown1.SelectedIndex++;
             }
             else
             {
