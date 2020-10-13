@@ -18,22 +18,22 @@ namespace PigeonProject
         Bitmap bmp = new Bitmap(300, 300);
         Graphics gr;
         Pen pen = new Pen(Brushes.Black);
+        string path = "";
         public Paint()
         {
             InitializeComponent();
             gr = Graphics.FromImage(bmp);
             pictureBox1.Image = bmp;
-            pen.Width = 20;
+            pen.Width = 30;
+            domainUpDown1.SelectedIndex = 1;
+            pictureBox1.Focus();
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            
-        }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             timer1.Start();
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -58,10 +58,26 @@ namespace PigeonProject
             pictureBox1.Image = bmp;
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog FBW = new FolderBrowserDialog();
+            FBW.ShowDialog();
+            path = FBW.SelectedPath;
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
-            Program.bmp = bmp;
-            Close();
+            if(checkBox1.Checked)
+            {
+                bmp.Save(path + "\\" + domainUpDown1.SelectedItem.ToString() + "_0.png");
+                domainUpDown1.SelectedIndex++;
+            }
+            else
+            {
+                Program.bmp = bmp;
+                Close();
+            }
+
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)

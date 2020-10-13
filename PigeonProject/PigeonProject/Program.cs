@@ -85,6 +85,7 @@ namespace PigeonProject
 
                         letterPaint();
                         Bitmap size = new Bitmap(bmp, 9, 15);
+                        size.Save("D:/1.jpg");
                         uploadImage(size);
                         break;
                     }
@@ -135,6 +136,7 @@ namespace PigeonProject
 
         static void uploadFolder(string path)
         {
+
             DirectoryInfo dir = new DirectoryInfo(path);
             List<Bitmap> uploadImages = new List<Bitmap>();
             FileInfo[] fileInfo = dir.GetFiles();
