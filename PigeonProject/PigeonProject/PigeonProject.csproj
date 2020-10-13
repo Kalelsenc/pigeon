@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Analizator.cs" />
     <Compile Include="ANeuron.cs" />
+    <Compile Include="HNeuron.cs" />
     <Compile Include="INeuron.cs" />
     <Compile Include="Paint.cs">
       <SubType>Form</SubType>
