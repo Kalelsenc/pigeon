@@ -23,6 +23,7 @@ namespace PigeonProject
         {
             InitializeComponent();
             gr = Graphics.FromImage(bmp);
+            gr.Clear(Color.White);
             pictureBox1.Image = bmp;
             pen.Width = 30;
             domainUpDown1.SelectedIndex = 1;
@@ -95,7 +96,7 @@ namespace PigeonProject
             }
             else
             {
-                Program.bmp = bmp;
+                Program.bmp = new Bitmap(pictureBox1.Image, 30, 30);
                 Close();
             }
 

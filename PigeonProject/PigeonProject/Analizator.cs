@@ -12,30 +12,37 @@ namespace PigeonProject
     [Serializable]
     class Analizator : INeuron<Bitmap, string>
     {
-        const int width = 9;
-        const int height = 15;
-        const double learnStepUp = 0.001;
-        const double learnStepDown = -0.0013;
+        const int width = 30;
+        const int height = 30;
+        const double learnStepUp = 0.1;
+        const double learnStepDown = -0.09;
+        [NonSerialized]
         bool learn = false;
+        [NonSerialized]
         bool debug = false;
+        [NonSerialized]
         string name;
 
-        readonly List<SNeuron> sensors;
-        readonly List<ANeuron> associates;
-        readonly RNeuron summator;
+        [NonSerialized]
+        List<SNeuron> sensors;
+        List<List<ANeuron>> associates;
+        [NonSerialized]
+        RNeuron summator;
 
-        Analizator(List<SNeuron> sensors, List<ANeuron> associates,RNeuron summator)
+        Analizator(List<SNeuron> sensors, List<List<ANeuron>> associates,RNeuron summator)
         {
             this.sensors = sensors;
             this.associates = associates;
             this.summator = summator;
+
+           
         }
 
         
         public static Analizator random()
         {
             List<SNeuron> sensors = new List<SNeuron>();
-            List<ANeuron> associates = new List<ANeuron>();
+            List < List <ANeuron>> associates = new List<List<ANeuron>>();
             RNeuron summator = new RNeuron();
 
             Random random = new Random();
@@ -44,10 +51,26 @@ namespace PigeonProject
                 sensors.Add(new SNeuron());
             
 
-            for (int i = 0; i < width * height; i++)
-                associates.Add(new ANeuron(random.NextDouble()));
-            
+
+            for(int j = 0; j < 33; j++)
+            {
+                associates.Add( new List<ANeuron>());
+                for (int i = 0; i < width * height; i++)
+                    associates[j].Add(new ANeuron(0));
+            }
+
             return new Analizator(sensors, associates, summator);
+        }
+
+        public void randomSensorsAndSummator()
+        {
+            summator = new RNeuron();
+
+
+            sensors = new List<SNeuron>();
+            for (int i = 0; i < width * height; i++)
+                sensors.Add(new SNeuron());
+
         }
 
         public void clear()
@@ -56,8 +79,9 @@ namespace PigeonProject
             foreach (SNeuron sensor in sensors)
                 sensor.clear();
 
-            foreach (ANeuron associate in associates)
-                associate.clear();
+            foreach (List<ANeuron> list in associates)
+                foreach (ANeuron associate in list)
+                    associate.clear();
 
             summator.clear();
             name = "";
@@ -65,33 +89,31 @@ namespace PigeonProject
 
         public string get()
         {
+            
 
-            for (int i = 0; i < sensors.Count; i++)
-                associates[i].push(sensors[i].get());
+            foreach (List<ANeuron> list in associates)
+                for (int i = 0; i < sensors.Count; i++)
+                    list[i].push(sensors[i].get());
 
-            foreach (ANeuron neuron in associates)
-                summator.push(neuron.get());
+            foreach (List<ANeuron> list in associates)
+                summator.push(list);
 
-            double doubleCode = summator.get();
-            int code = (int)Math.Round(doubleCode, MidpointRounding.ToEven);
+            Tuple<int, double> doubleCode = summator.get();
            
-            string result = getLetterByCode(code);
+            string result = getLetterByCode(doubleCode.Item1+1);
 
             if (learn)
             {
                 string rightLetter = name.Split('_')[0];
                 if (result != rightLetter)
                 {
-                    if (code < getCodeByLetter(rightLetter))
-                        associates.ForEach(x => x.learn(learnStepUp));
-                    else associates.ForEach(x => x.learn(learnStepDown));
+                    associates[getCodeByLetter(rightLetter) - 1].ForEach(x => x.learn(learnStepUp));
+                    associates[doubleCode.Item1].ForEach(x => x.learn(learnStepDown));
                 }
             }
-            else
-            {
+
+            if (debug)
                 Console.WriteLine(doubleCode);
-                Console.WriteLine(code);
-            }
             clear();
             return result;
         }
@@ -100,7 +122,7 @@ namespace PigeonProject
         {
             switch (letter)
             {
-                case "a":
+                case "а":
                     return 1;
                 case "б":
                     return 2;
@@ -166,7 +188,7 @@ namespace PigeonProject
                     return 32;
                 case "я":
                     return 33;
-                default: throw new Exception ("Ежжи, такой буквы я не знаю, пашел к чорту.");
+                default: throw new Exception ("Ежжи, такой буквы "+letter+" я не знаю, пашел к чорту.");
 
             }
         }
@@ -250,7 +272,10 @@ namespace PigeonProject
         {
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
+                {
                     sensors[x * y + x].push(value.GetPixel(x, y));
+                    //Console.WriteLine(value.GetPixel(x, y).R+" "+ value.GetPixel(x, y).G+" "+ value.GetPixel(x, y).B);
+                }
             name = (string)value.Tag;
         }
 
@@ -269,8 +294,13 @@ namespace PigeonProject
         {
             string result = "";
 
-            foreach (ANeuron neuron in associates)
-                result += neuron.weight + " ";
+            for (int i = 0; i < associates.Count;i++)
+            {
+                result += getLetterByCode(i + 1) + "\n";
+                foreach (ANeuron neuron in associates[i])
+                    result += neuron.weight + " ";
+                result += "\n";
+            }    
 
             return result;
         }

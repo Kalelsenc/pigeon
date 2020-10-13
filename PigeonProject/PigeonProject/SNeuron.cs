@@ -18,6 +18,7 @@ namespace PigeonProject
 
         public int get()
         {
+          
             if (color.B <=225 || color.G <= 225 || color.R <= 225)
                 return 1;
             else

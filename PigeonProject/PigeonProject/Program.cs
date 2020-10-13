@@ -84,9 +84,7 @@ namespace PigeonProject
 
 
                         letterPaint();
-                        Bitmap size = new Bitmap(bmp, 9, 15);
-                        size.Save("D:/1.jpg");
-                        uploadImage(size);
+                        uploadImage(bmp);
                         break;
                     }
 
@@ -109,7 +107,8 @@ namespace PigeonProject
         static void uploadImage(string path)
         {
 
-            Bitmap pic = new Bitmap(path);
+            Bitmap pic = new Bitmap(Image.FromFile(path), 30, 30);
+
             DirectoryInfo dir = new DirectoryInfo(path);
             pic.Tag = dir.Name;
 
@@ -143,7 +142,7 @@ namespace PigeonProject
 
             for (int i=0;i<Convert.ToInt16(dir.GetFiles().Length.ToString());i++)
             {
-                Bitmap pic =new Bitmap(fileInfo[i].FullName);
+                Bitmap pic = new Bitmap(new Bitmap(fileInfo[i].FullName), 30, 30);
                 pic.Tag = fileInfo[i].Name;
                 uploadImages.Add(pic);
             }
@@ -156,14 +155,15 @@ namespace PigeonProject
             foreach (Bitmap bitmap in uploadImages)
             {
                 analizator.push(bitmap);
-                Console.WriteLine("value: "+bitmap.Tag+" result:" + analizator.get());
+                string result = analizator.get();
+                Console.WriteLine("value: "+bitmap.Tag+" result:" + result + (result == bitmap.Tag.ToString().Split('_')[0] ?" - ok" : " - not ok"  ));
             }
 
         }
 
         static void LearnByImage(string path)
         {
-            Bitmap pic = new Bitmap(path);
+            Bitmap pic = new Bitmap(new Bitmap(path), 30, 30);
             DirectoryInfo dir = new DirectoryInfo(path);
             pic.Tag = dir.Name;
 
@@ -184,7 +184,7 @@ namespace PigeonProject
 
             for (int i = 0; i < Convert.ToInt16(dir.GetFiles().Length.ToString()); i++)
             {
-                Bitmap pic = new Bitmap(fileInfo[i].FullName);
+                Bitmap pic = new Bitmap(new Bitmap(fileInfo[i].FullName), 30, 30);
                 pic.Tag = fileInfo[i].Name;
                 uploadImages.Add(pic);
             }
@@ -194,15 +194,17 @@ namespace PigeonProject
 
             analizator.setLearn(true);
 
-            for(int i = 0; i < 2000; i++)
+            for(int i = 0; i < 100; i++)
             {
                 foreach (Bitmap bitmap in uploadImages)
                 {
                     analizator.push(bitmap);
                     analizator.get();
                 }
-            }
+                Console.WriteLine(i);
 
+            }
+         
         }
 
         static void saveConfig(Analizator analizator, string path)
@@ -216,9 +218,10 @@ namespace PigeonProject
         {
             BinaryFormatter formatter = new BinaryFormatter();
             Analizator dataset;
+
             using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate))
                 dataset = (Analizator)formatter.Deserialize(stream);
-
+            dataset.randomSensorsAndSummator();
             return dataset;
         }
 

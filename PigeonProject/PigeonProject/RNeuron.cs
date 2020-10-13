@@ -6,23 +6,35 @@ using System.Threading.Tasks;
 
 namespace PigeonProject
 {
-    class RNeuron : INeuron<double, double>
+    class RNeuron : INeuron<List<ANeuron>, Tuple<int, double>>
     {
-        double sum = 0;
-
+        List<List<ANeuron>> values = new List<List<ANeuron>>();
         public void clear()
         {
-            sum = 0;
+            values.Clear();
         }
 
-        public double get()
+        public void push(List<ANeuron> value)
         {
-            return sum;
+            values.Add(value);
         }
 
-        public void push(double value)
+        public Tuple<int, double> get()
         {
-            sum += value;
+            Tuple < int, double> max = new Tuple<int, double>(int.MinValue, double.MinValue);
+
+
+          
+            for(int i = 0; i < values.Count; i++)
+            {
+                double sum = 0;
+                foreach (ANeuron neuron in values[i])
+                    sum += neuron.get();
+                if (sum > max.Item2)
+                    max = new Tuple<int, double>(i, sum);
+            }
+
+            return max;
         }
     }
 }
