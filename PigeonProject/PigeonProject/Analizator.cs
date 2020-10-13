@@ -15,7 +15,7 @@ namespace PigeonProject
         const int width = 30;
         const int height = 30;
         const double learnStepUp = 0.1;
-        const double learnStepDown = -0.09;
+        const double learnStepDown = -0.21;
         [NonSerialized]
         bool learn = false;
         [NonSerialized]
